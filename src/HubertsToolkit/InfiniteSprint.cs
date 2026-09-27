@@ -3,17 +3,18 @@ using HarmonyLib;
 
 namespace HubertsToolkit;
 
-[HarmonyPatch(typeof(PlayerControllerB), "Update")]
+[HarmonyPatch(typeof(PlayerControllerB), "LateUpdate")]
 internal static class InfiniteSprintPatch
 {
     [HarmonyPostfix]
-    private static void Postfix(ref float ___sprintMeter)
+    private static void Postfix(PlayerControllerB __instance)
     {
-        if (!Plugin.InfiniteSprint.Value)
+        if (!Plugin.InfiniteSprint.Value || __instance == null || !__instance.IsOwner)
         {
             return;
         }
 
-        ___sprintMeter = 1f;
+        __instance.sprintMeter = 1f;
+        __instance.isExhausted = false;
     }
 }

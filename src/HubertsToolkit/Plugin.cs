@@ -1,3 +1,4 @@
+using System;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
@@ -30,7 +31,19 @@ public partial class Plugin : BaseUnityPlugin
             "Refill a flashlight battery while you are using it.");
 
         Log.LogMessage($"{Id} has loaded successfully.");
-        Harmony.CreateAndPatchAll(typeof(InfiniteSprintPatch));
-        Harmony.CreateAndPatchAll(typeof(InfiniteFlashlightPatch));
+        Patch(typeof(InfiniteFlashlightPatch));
+        Patch(typeof(InfiniteSprintPatch));
+    }
+
+    private static void Patch(Type patchType)
+    {
+        try
+        {
+            Harmony.CreateAndPatchAll(patchType);
+        }
+        catch (Exception exception)
+        {
+            Log.LogError($"Failed to apply {patchType.Name}: {exception}");
+        }
     }
 }

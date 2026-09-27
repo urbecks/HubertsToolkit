@@ -3,6 +3,7 @@
 ## 1.0.2
 
 - Give the Thunderstore page its own readme, without build instructions
+- Fill the sprint meter after the game drains it, instead of rewriting `PlayerControllerB.Update`
 
 ## 1.0.1
 
